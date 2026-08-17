@@ -1,0 +1,11 @@
+*
+!.gitignore
+!user.js
+!chrome/
+!chrome/userChrome.css
+!ZEN_THEMING.md
+!README.md
+!REFERENCE.md
+!ZenWal.gif
+!scripts/
+!scripts/update-zen-colors.sh
