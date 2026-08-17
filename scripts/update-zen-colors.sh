@@ -1,9 +1,18 @@
 #!/usr/bin/env bash
-# Reads pywal colors and updates Zen's userChrome.css
+# Reads pywal colors and updates Zen's userChrome.css and userContent.css
+
 COLORS="$HOME/.cache/wal/colors"
-PROFILE="ohxnyl82.Default (release)"
-CHROME="$HOME/.zen/$PROFILE/chrome/userChrome.css"
-CONTENT="$HOME/.zen/$PROFILE/chrome/userContent.css"
+
+# Find the most recently modified profile directory (excluding backups)
+PROFILE_DIR=$(ls -td "$HOME/.zen/"*/ 2>/dev/null | grep -E "\.Default" | grep -v "_backup" | head -n 1 | sed 's/\/$//')
+
+if [ -z "$PROFILE_DIR" ] || [ ! -d "$PROFILE_DIR" ]; then
+  echo "Error: Could not find a valid Zen profile directory."
+  exit 1
+fi
+
+CHROME="$PROFILE_DIR/chrome/userChrome.css"
+CONTENT="$PROFILE_DIR/chrome/userContent.css"
 
 # Read colors by line
 color0=$(sed -n '1p' "$COLORS")
@@ -68,4 +77,4 @@ cat >"$CONTENT" <<EOF
 }
 EOF
 
-echo "Zen colors updated."
+echo "Zen colors successfully applied to: $PROFILE_DIR"
