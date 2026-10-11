@@ -1,7 +1,10 @@
 #!/usr/bin/env bash
 # Reads pywal colors and updates Zen's userChrome.css and userContent.css
 
-COLORS="$HOME/.cache/wal/colors"
+. "$HOME/.cache/theme/colors.sh" || {
+  echo "Run theme-switch first."
+  exit 1
+}
 
 # Find the most recently modified profile directory (excluding backups)
 PROFILE_DIR=$(ls -td "$HOME/.zen/"*/ 2>/dev/null | grep -E "\.Default" | grep -v "_backup" | head -n 1 | sed 's/\/$//')
@@ -15,10 +18,7 @@ CHROME="$PROFILE_DIR/chrome/userChrome.css"
 CONTENT="$PROFILE_DIR/chrome/userContent.css"
 
 # Read colors by line
-color0=$(sed -n '1p' "$COLORS")
-color4=$(sed -n '5p' "$COLORS")
-color7=$(sed -n '8p' "$COLORS")
-color8=$(sed -n '9p' "$COLORS")
+color4="$accent" # theme accent becomes Zen's primary color
 
 cat >"$CHROME" <<EOF
 :root {
